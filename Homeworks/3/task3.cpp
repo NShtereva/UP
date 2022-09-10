@@ -97,17 +97,44 @@ pixel** fillArea(const pixel *const *const image, size_t width, size_t height, s
     return newIimage;
 }
 
-void streamRecovery()
+int readNumber()
 {
-    if (!std::cin)
+    int number;
+    
+    do 
     {
-        std::cout << "Invalid data!" << std::endl;
+        std::cin >> number;
+
         while(!std::cin)
         {
             std::cin.clear();
             std::cin.ignore();
+
+            std::cin >> number;
         }
-    }
+    } while (number <= 0);
+
+    return number;
+}
+
+int readNumber(int min, int max)
+{
+    int number;
+    
+    do 
+    {
+        std::cin >> number;
+
+        while(!std::cin)
+        {
+            std::cin.clear();
+            std::cin.ignore();
+
+            std::cin >> number;
+        }
+    } while (number < min || number > max);
+
+    return number;
 }
 
 void printPixel(const pixel& p)
@@ -151,19 +178,11 @@ int main()
 {
     int height, width;
 
-    do
-    {
-        std::cout << "Enter the number of rows: ";
-        std::cin >> height;
-        streamRecovery();
-    } while (height <= 0);
+    std::cout << "Enter the number of rows: ";
+    height = readNumber();
 
-    do
-    {
-        std::cout << "Enter the number of columns: ";
-        std::cin >> width;
-        streamRecovery();
-    } while (width <= 0);
+    std::cout << "Enter the number of columns: ";
+    width = readNumber();
 
     pixel** image = new(std::nothrow) pixel*[height];
     if (!image)
@@ -190,11 +209,7 @@ int main()
             for (int k = 0; k < 3; k++)
             {
                 int curr;
-                do
-                {
-                    std::cin >> curr;
-                    streamRecovery();
-                } while (curr < 0 || curr > 255);
+                curr = readNumber(0, 255);
                 image[i][j][k] = curr;
             }
         }
@@ -202,19 +217,11 @@ int main()
 
     int row, column;
 
-    do
-    {
-        std::cout << "\nEnter the starting row of the area: ";
-        std::cin >> row;
-        streamRecovery();
-    } while (row < 0 && row > height - 1);
+    std::cout << "\nEnter the starting row of the area: ";
+    row = readNumber(0, height - 1);
 
-    do
-    {
-        std::cout << "Enter the starting column of the area: ";
-        std::cin >> column;
-        streamRecovery();
-    } while (column < 0 && column > width - 1);
+    std::cout << "Enter the starting column of the area: ";
+    column = readNumber(0, width - 1);
 
     pixel** newImage = fillArea(image, width, height, row, column);
     if (newImage == nullptr)

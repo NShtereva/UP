@@ -1,27 +1,30 @@
 #include <iostream>
 
-void streamRecovery()
+int readNumber()
 {
-    if(!std::cin)
+    int number;
+    
+    do 
     {
-        std::cout << "Invalid data!\n";
+        std::cin >> number;
+
         while(!std::cin)
         {
             std::cin.clear();
             std::cin.ignore();
+
+            std::cin >> number;
         }
-    }
+    } while (number <= 0);
+
+    return number;
 }
 
 void readArray(int array[], const int& size)
 {
     for(int i = 0; i < size; i++)
     {
-        do
-        {
-            std::cin >> array[i];
-            streamRecovery();
-        } while (array[i] <= 0);
+        array[i] = readNumber();
     }
 }
 
@@ -96,12 +99,8 @@ void deleteArr(int** array, const int& size)
 int main()
 {
     int K;
-    do
-    {
-        std::cout << "K = ";
-        std::cin >> K;
-        streamRecovery();
-    } while (K <= 0);
+    std::cout << "K = ";
+    K = readNumber();
 
     //volume -> cm^3
     int* V = new(std::nothrow) int[K];
@@ -114,12 +113,8 @@ int main()
     readArray(V, K);
 
     int N;
-    do
-    {
-        std::cout << "N = ";
-        std::cin >> N;
-        streamRecovery();
-    } while (N <= 0);
+    std::cout << "N = ";
+    N = readNumber();
     
     //weight -> g
     //1 cm^3 = 1 g

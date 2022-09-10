@@ -138,28 +138,31 @@ long long* removeFriendlyNumbers(long long* array, const int& N, int& newSize)
 }
 
 //c)
-void streamRecovery()
+int readNumber()
 {
-    if(!std::cin)
+    int number;
+    
+    do 
     {
-        std::cout << "Invalid data!\n";
+        std::cin >> number;
+
         while(!std::cin)
         {
             std::cin.clear();
             std::cin.ignore();
+
+            std::cin >> number;
         }
-    }
+    } while (number <= 0);
+
+    return number;
 }
 
 void readArray(long long* array, const int& N)
 {
     for(int i = 0; i < N; i++)
     {
-        do
-        {
-            std::cin >> array[i];
-            streamRecovery();
-        } while (array[i] <= 0);
+        array[i] = readNumber();
     }
 }
 
@@ -175,12 +178,8 @@ void printArray(long long* array, const int& N)
 int main()
 {
     int N;
-    do
-    {
-        std::cout << "Enter N:";
-        std::cin >> N;
-        streamRecovery();
-    } while (N <= 0);
+    std::cout << "Enter N:" << std::endl;
+    N = readNumber();
 
     long long* array = new(std::nothrow) long long[N];
     if (!array)
@@ -189,6 +188,7 @@ int main()
         return 1;
     }
 
+    std::cout << "Enter array:" << std::endl;
     readArray(array, N);
 
     std::cout << "\n";

@@ -2,14 +2,24 @@
 
 const size_t MAX_WIDTH_SIZE = 81;
 
-void streamRecovery()
+int readNumber(int min, int max)
 {
-    if(!std::cin)
+    int number;
+    
+    do 
     {
-        std::cout << "Invalid data!\n";
-        std::cin.clear();
-        std::cin.ignore();
-    }
+        std::cin >> number;
+
+        while(!std::cin)
+        {
+            std::cin.clear();
+            std::cin.ignore();
+
+            std::cin >> number;
+        }
+    } while (number < min || number > max);
+
+    return number;
 }
 
 void printPlayground(const int& height, const int& width, const char playground[][MAX_WIDTH_SIZE])
@@ -34,12 +44,8 @@ int correctMove(int& colNumber, const int& height, const int& width, const char 
     {
         row = 0;
 
-        do
-        {
-            std::cout << "\nEnter a column number: ";
-            std::cin >> colNumber;
-            streamRecovery();
-        } while (colNumber < 1 || colNumber > width);
+        std::cout << "\nEnter a column number: ";
+        colNumber = readNumber(1, width);
 
         for (row = height - 1; row >= 0; row--)
         {
@@ -120,19 +126,12 @@ int main()
     const size_t MAX_HEIGHT_SIZE = 20;
 
     int height, width;
-    do
-    {
-        std::cout << "height = ";
-        std::cin >> height;
-        streamRecovery();
-    } while (height < 4 || height > 20);
 
-    do
-    {
-        std::cout << "width = ";
-        std::cin >> width;
-        streamRecovery();
-    } while (width < 4 || width > 40);
+    std::cout << "height = ";
+    height = readNumber(4, 20);
+
+    std::cout << "width = ";
+    width = readNumber(4, 40);
 
     char playground[MAX_HEIGHT_SIZE][MAX_WIDTH_SIZE];
 
